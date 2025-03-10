@@ -9,7 +9,7 @@ export const protect = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized - No Token" });
     }
 
-    const token = tokenHeader.split(" ")[1]; // Extract actual token
+    const token = tokenHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     req.user = await User.findById(decoded.id).select("-password");
 
@@ -17,7 +17,7 @@ export const protect = async (req, res, next) => {
       return res.status(401).json({ message: "User not found" });
     }
 
-    console.log("Authenticated User:", req.user); // Debugging
+    console.log("Authenticated User:", req.user); 
     next();
   } catch (error) {
     console.error("Token verification failed:", error);
@@ -29,7 +29,7 @@ export const protect = async (req, res, next) => {
 
 export const verifyAdmin = async (req, res, next) => {
   try {
-    console.log("User Data:", req.user); // Debugging
+    console.log("User Data:", req.user); 
 
     if (!req.user || req.user.role !== 'admin') {
       console.log("Access Denied - User Role:", req.user ? req.user.role : "No User Data");
